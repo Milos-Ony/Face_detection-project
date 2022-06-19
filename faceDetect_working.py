@@ -1,9 +1,8 @@
+# Importing libraries 
 import cv2
-import sys
-import time
-import playsound
 import vlc
 
+# Importing .xml haarcascade model 
 faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
 
 video_capture = cv2.VideoCapture(0)
@@ -29,17 +28,21 @@ while True:
     for (x, y, w, h) in faces:
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
+    # Variables needed for if statement
     previous = current
     current = len(faces)
 
+    # Checking if new face entered the frame
     if (current - previous) > 0:
         player = vlc.MediaPlayer("zdezynfekuj-rece.mp3")
         player.play()
         time.sleep(6)
         player.release()
+        
     # Display the resulting frame
-    #cv2.imshow('Video', frame)
-
+    cv2.imshow('Video', frame)
+    
+    # Exit condition (press q)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
